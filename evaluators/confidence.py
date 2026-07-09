@@ -1,19 +1,16 @@
 import math
 
+from config import LOGPROB_WEIGHT, ANSWER_WEIGHT
+
 
 class ConfidenceEvaluator:
     """
-    Computes a routing score for deciding whether the
-    local model can be trusted.
+    Computes a routing score indicating whether the
+    local model's answer is trustworthy enough.
 
     Signals:
     1. Local model log probabilities
-    2. Answer quality
-
-    NOTE:
-    Task difficulty is intentionally NOT included here.
-    It will be handled by the Decision Engine using
-    task-specific thresholds.
+    2. Answer quality heuristics
     """
 
     def evaluate(self, state):
@@ -28,9 +25,10 @@ class ConfidenceEvaluator:
         # -----------------------------
         # Final Route Score
         # -----------------------------
+
         route_score = (
-            0.40 * logprob_score +
-            0.60 * answer_score
+            LOGPROB_WEIGHT * logprob_score +
+            ANSWER_WEIGHT * answer_score
         )
 
         state.route_score = round(route_score, 3)
@@ -45,7 +43,6 @@ class ConfidenceEvaluator:
     # =========================================================
 
     def _logprob_score(self, logprobs):
-
         """
         Converts average log probability into a
         confidence value between 0 and 1.
@@ -63,12 +60,10 @@ class ConfidenceEvaluator:
     # =========================================================
 
     def _answer_quality_score(self, answer, task_type):
-
         """
-        Evaluates whether the answer LOOKS reliable.
+        Evaluates whether the answer appears reliable.
 
-        This is intentionally heuristic-based so that it
-        costs zero tokens.
+        Uses zero-token heuristic checks.
         """
 
         if not answer:
@@ -134,7 +129,7 @@ class ConfidenceEvaluator:
                 score += 0.05
 
         elif task_type == "math":
-            # Short numeric answers are perfectly valid.
+            # Short numeric answers are valid.
             pass
 
         return max(0.0, min(score, 1.0))
