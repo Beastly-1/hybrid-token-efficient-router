@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Python
 __pycache__/
 *.py[cod]
@@ -19,6 +20,8 @@ output.txt
 .DS_Store
 Thumbs.db
 =======
+=======
+>>>>>>> origin/with-step-1-again
 __pycache__/
 *.py[cod]
 .venv/
@@ -26,4 +29,7 @@ __pycache__/
 models/qwen2.5-1.5b-instruct-int4-ov/.cache/
 .pytest_cache/
 pytest-cache-files-*/
+<<<<<<< HEAD
+>>>>>>> origin/with-step-1-again
+=======
 >>>>>>> origin/with-step-1-again
