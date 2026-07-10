@@ -1,27 +1,52 @@
 import os
+import json
+from pathlib import Path
 
 # ==========================================================
-# Local Model (Ollama)
+# Local Model (OpenVINO GenAI)
 # ==========================================================
 
-LOCAL_MODEL = "qwen2.5:1.5b"
+PROJECT_ROOT = Path(__file__).resolve().parent
 
-LOCAL_ENDPOINT = "http://localhost:11434/api/generate"
+# Directory containing an OpenVINO-exported, NPU-compatible instruct model.
+LOCAL_MODEL_PATH = os.getenv(
+    "LOCAL_MODEL_PATH",
+    str(PROJECT_ROOT / "models" / "qwen2.5-1.5b-instruct-int4-ov"),
+)
+LOCAL_PREFERRED_DEVICE = os.getenv("LOCAL_PREFERRED_DEVICE", "NPU")
+LOCAL_FALLBACK_DEVICE = os.getenv("LOCAL_FALLBACK_DEVICE", "CPU")
+LOCAL_MODEL_CACHE_DIR = os.getenv(
+    "LOCAL_MODEL_CACHE_DIR", str(PROJECT_ROOT / ".openvino_cache")
+)
+LOCAL_MAX_NEW_TOKENS = int(os.getenv("LOCAL_MAX_NEW_TOKENS", "256"))
+LOCAL_TIMEOUT_SECONDS = int(os.getenv("LOCAL_TIMEOUT_SECONDS", "120"))
+LOCAL_NPU_GENERATE_HINT = os.getenv("LOCAL_NPU_GENERATE_HINT", "FAST_COMPILE")
+LOCAL_MODEL_ENABLED = os.getenv("LOCAL_MODEL_ENABLED", "true").lower() == "true"
+LOCAL_ACCEPT_DIFFICULTIES = {
+    value.strip()
+    for value in os.getenv("LOCAL_ACCEPT_DIFFICULTIES", "easy").split(",")
+    if value.strip()
+}
 
-# ==========================================================
-# Fireworks API
-# (Read from environment variables)
-# ==========================================================
+# Input limits keep the pre-router bounded on a laptop.
+MAX_INPUT_CHARACTERS = int(os.getenv("MAX_INPUT_CHARACTERS", "12000"))
+MAX_PROMPT_CHARACTERS = int(os.getenv("MAX_PROMPT_CHARACTERS", "14000"))
 
 FIREWORKS_API_KEY = os.getenv("FIREWORKS_API_KEY", "")
-
-FIREWORKS_BASE_URL = os.getenv("FIREWORKS_BASE_URL", "")
-
+FIREWORKS_BASE_URL = os.getenv(
+    "FIREWORKS_BASE_URL", "https://api.fireworks.ai/inference/v1"
+)
+FIREWORKS_MODEL = os.getenv(
+    "FIREWORKS_MODEL", "accounts/fireworks/models/deepseek-v3p1"
+)
+FIREWORKS_TIMEOUT_SECONDS = int(os.getenv("FIREWORKS_TIMEOUT_SECONDS", "120"))
 ALLOWED_MODELS = [
     model.strip()
     for model in os.getenv("ALLOWED_MODELS", "").split(",")
     if model.strip()
 ]
+FIREWORKS_MODEL_CATALOG = json.loads(os.getenv("FIREWORKS_MODEL_CATALOG", "[]"))
+MODEL_SELECTION_MODE = os.getenv("MODEL_SELECTION_MODE", "cost_first").strip().lower()
 
 # ==========================================================
 # Routing Thresholds

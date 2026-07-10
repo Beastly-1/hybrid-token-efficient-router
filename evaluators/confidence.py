@@ -27,8 +27,9 @@ class ConfidenceEvaluator:
         # -----------------------------
 
         route_score = (
-            LOGPROB_WEIGHT * logprob_score +
-            ANSWER_WEIGHT * answer_score
+            LOGPROB_WEIGHT * logprob_score + ANSWER_WEIGHT * answer_score
+            if state.logprobs
+            else answer_score
         )
 
         state.route_score = round(route_score, 3)

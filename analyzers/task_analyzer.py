@@ -1,3 +1,5 @@
+import re
+
 from state import RoutingState
 
 
@@ -30,35 +32,18 @@ class TaskAnalyzer:
 
         # ---------------- Calculator ----------------
 
-        math_keywords = [
-            "calculate",
-            "compute",
-            "evaluate",
-            "simplify",
-            "sqrt",
-            "sin",
-            "cos",
-            "tan",
-            "factorial",
-            "log",
-            "exp",
-        ]
+        has_math_keyword = bool(
+            re.search(
+                r"\b(?:calculate|compute|evaluate|simplify|sqrt|sin|cos|tan|"
+                r"factorial|log|exp)\b",
+                q,
+            )
+        )
+        has_numeric_expression = bool(
+            re.search(r"\d\s*(?:\+|-|\*{1,2}|/|%|\^|//)\s*\d", q)
+        )
 
-        operators = [
-            "+",
-            "-",
-            "*",
-            "/",
-            "%",
-            "**",
-            "//",
-            "^",
-        ]
-
-        if (
-            any(op in q for op in operators)
-            or any(word in q for word in math_keywords)
-        ):
+        if has_math_keyword or has_numeric_expression:
             state.tool_candidate = "calculator"
 
         # ---------------- JSON ----------------
@@ -186,6 +171,7 @@ class TaskAnalyzer:
             word in q
             for word in [
                 "write a function",
+                "write a python function",
                 "generate code",
                 "implement",
                 "write python",

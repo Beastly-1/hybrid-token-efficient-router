@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+.venv/
+.openvino_cache/
+models/qwen2.5-1.5b-instruct-int4-ov/.cache/
+.pytest_cache/
+pytest-cache-files-*/
