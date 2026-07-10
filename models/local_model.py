@@ -8,21 +8,18 @@ You are a routing assistant.
 
 Rules:
 - Return plain text only.
-- Never use Markdown,Latex
-- Be concise,don't explain if not asked explicitly.
+- Never use Markdown or LaTeX.
+- Be concise.
 - If the question has a single answer, output only that answer.
 """
 
 
 class LocalModel:
     """
-    Wrapper around the local LLM (Gemma).
+    Wrapper around the local LLM (Ollama/Gemma/Qwen).
     """
 
     def generate(self, state):
-        """
-        Runs the local model and updates the RoutingState.
-        """
 
         payload = {
             "model": LOCAL_MODEL,
@@ -33,6 +30,7 @@ class LocalModel:
         }
 
         try:
+
             response = requests.post(
                 LOCAL_ENDPOINT,
                 json=payload,
@@ -43,13 +41,41 @@ class LocalModel:
 
             data = response.json()
 
+            # ---------------------------------------------------
+            # DEBUG (Temporary)
+            # ---------------------------------------------------
+
+            print("\n========== OLLAMA RESPONSE ==========")
+            print("Model:", data.get("model"))
+            print("Answer:", data.get("response"))
+            print("Number of logprobs:", len(data.get("logprobs", [])))
+            print("=====================================\n")
+
+            # ---------------------------------------------------
+            # Answer
+            # ---------------------------------------------------
+
             state.local_answer = data.get("response", "").strip()
+
+            # ---------------------------------------------------
+            # Logprobs
+            # ---------------------------------------------------
+
             state.logprobs = data.get("logprobs", [])
+
+            print("LOGPROBS TYPE :", type(state.logprobs))
+            print("LOGPROBS VALUE:", state.logprobs)
 
             return state
 
         except requests.RequestException as e:
-            raise RuntimeError(f"Failed to contact local model: {e}")
+
+            raise RuntimeError(
+                f"Failed to contact local model: {e}"
+            )
 
         except Exception as e:
-            raise RuntimeError(f"Unexpected error in LocalModel: {e}")
+
+            raise RuntimeError(
+                f"Unexpected error in LocalModel: {e}"
+            )

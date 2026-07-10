@@ -44,14 +44,49 @@ class ConfidenceEvaluator:
 
     def _logprob_score(self, logprobs):
         """
-        Converts average log probability into a
-        confidence value between 0 and 1.
+        Converts Ollama logprobs into a confidence score.
+
+        Supports BOTH formats:
+
+        1.
+        [
+            -0.2,
+            -0.5,
+            ...
+        ]
+
+        2.
+        [
+            {"token":"AMD","logprob":-0.03},
+            {"token":"released","logprob":-0.12},
+            ...
+        ]
         """
 
         if not logprobs:
             return 0.0
 
-        avg = sum(logprobs) / len(logprobs)
+        values = []
+
+        for item in logprobs:
+
+            # Ollama dictionary format
+            if isinstance(item, dict):
+
+                lp = item.get("logprob")
+
+                if isinstance(lp, (int, float)):
+                    values.append(lp)
+
+            # Plain numeric format
+            elif isinstance(item, (int, float)):
+
+                values.append(item)
+
+        if not values:
+            return 0.0
+
+        avg = sum(values) / len(values)
 
         score = math.exp(avg)
 
@@ -103,6 +138,7 @@ class ConfidenceEvaluator:
         words = lower.split()
 
         if len(words) > 6:
+
             unique_ratio = len(set(words)) / len(words)
 
             if unique_ratio < 0.40:
@@ -113,23 +149,26 @@ class ConfidenceEvaluator:
         # -----------------------------------------------------
 
         if task_type == "code_generation":
+
             if "def " in answer:
                 score += 0.05
 
         elif task_type == "code_debug":
+
             if "return" in answer:
                 score += 0.05
 
         elif task_type == "ner":
+
             if ":" in answer:
                 score += 0.05
 
         elif task_type == "summarization":
+
             if len(words) > 8:
                 score += 0.05
 
         elif task_type == "math":
-            # Short numeric answers are valid.
             pass
 
         return max(0.0, min(score, 1.0))

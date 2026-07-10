@@ -1,7 +1,7 @@
 import json
 import re
 
-from tool_registry import ToolRegistry
+from tools.tool_registry import ToolRegistry
 
 
 class ToolRouter:
@@ -88,7 +88,11 @@ class ToolRouter:
 
             candidate = self._extract_last_token(query)
 
-            if "email" in lower:
+            if (
+            "verify email" in lower
+            or "validate email" in lower
+            or "email address" in lower
+                ):
 
                 state.final_answer = (
                     "Valid Email"
@@ -96,7 +100,11 @@ class ToolRouter:
                     else "Invalid Email"
                 )
 
-            elif "phone" in lower:
+            elif (
+                "verify phone" in lower
+                or "validate phone" in lower
+                or "phone number" in lower
+                ):
 
                 state.final_answer = (
                     "Valid Phone Number"
@@ -104,7 +112,10 @@ class ToolRouter:
                     else "Invalid Phone Number"
                 )
 
-            elif "url" in lower:
+            elif (
+                "verify url" in lower
+                or "validate url" in lower
+                ):  
 
                 state.final_answer = (
                     "Valid URL"

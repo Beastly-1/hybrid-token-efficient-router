@@ -1,3 +1,5 @@
+import re
+
 from state import RoutingState
 
 
@@ -13,7 +15,7 @@ class TaskAnalyzer:
 
     def analyze(self, state: RoutingState):
 
-        query = state.query
+        query = state.query.strip()
         q = query.lower()
 
         # -------------------------------------------------
@@ -28,77 +30,15 @@ class TaskAnalyzer:
         # TOOL DETECTION
         # =================================================
 
-        # ---------------- Calculator ----------------
-
-        math_keywords = [
-            "calculate",
-            "compute",
-            "evaluate",
-            "simplify",
-            "sqrt",
-            "sin",
-            "cos",
-            "tan",
-            "factorial",
-            "log",
-            "exp",
-        ]
-
-        operators = [
-            "+",
-            "-",
-            "*",
-            "/",
-            "%",
-            "**",
-            "//",
-            "^",
-        ]
-
-        if (
-            any(op in q for op in operators)
-            or any(word in q for word in math_keywords)
-        ):
-            state.tool_candidate = "calculator"
-
-        # ---------------- JSON ----------------
-
-        elif (
-            "json" in q
-            and (
-                "validate" in q
-                or "schema" in q
-                or "parse" in q
-                or "pretty" in q
-            )
-        ):
-            state.tool_candidate = "json_validator"
-
-        # ---------------- Regex ----------------
-
-        elif any(
-            word in q
-            for word in [
-                "email",
-                "phone",
-                "url",
-                "uuid",
-                "ipv4",
-                "regex",
-                "date format",
-                "time format",
-            ]
-        ):
-            state.tool_candidate = "regex_verifier"
-
         # ---------------- DateTime ----------------
 
-        elif any(
-            word in q
-            for word in [
+        if any(
+            phrase in q
+            for phrase in [
                 "current date",
                 "today",
                 "current time",
+                "current datetime",
                 "timestamp",
                 "day of week",
                 "days between",
@@ -109,26 +49,96 @@ class TaskAnalyzer:
         ):
             state.tool_candidate = "datetime"
 
-        # ---------------- Python ----------------
+        # ---------------- Calculator ----------------
 
-        elif any(
-            word in q
-            for word in [
-                "run python",
-                "execute python",
-                "execute code",
-                "run this code",
+        else:
+
+            math_keywords = [
+                "calculate",
+                "compute",
+                "evaluate",
+                "simplify",
+                "solve",
+                "sqrt",
+                "sin",
+                "cos",
+                "tan",
+                "factorial",
+                "log",
+                "log10",
+                "exp",
+                "equation",
+                "integral",
+                "derivative",
             ]
-        ):
-            state.tool_candidate = "python_executor"
 
-        # ---------------- Verification ----------------
+            has_math_expression = (
+                re.search(r"\d+\s*[\+\*/%]\s*\d+", q) is not None
+                or re.search(r"\d+\s*-\s*\d+", q) is not None
+                or "**" in q
+                or re.search(r"\d+\s*//\s*\d+", q) is not None
+            )
 
-        elif (
-            "verify" in q
-            or "validation" in q
-        ):
-            state.tool_candidate = "verification"
+            if has_math_expression or any(word in q for word in math_keywords):
+                state.tool_candidate = "calculator"
+
+            # ---------------- JSON ----------------
+
+            elif (
+                "json" in q
+                and any(
+                    word in q
+                    for word in [
+                        "validate",
+                        "schema",
+                        "parse",
+                        "pretty",
+                    ]
+                )
+            ):
+                state.tool_candidate = "json_validator"
+
+            # ---------------- Regex ----------------
+
+            elif any(
+                phrase in q
+                for phrase in [
+                    "verify email",
+                    "validate email",
+                    "verify phone",
+                    "validate phone",
+                    "verify url",
+                    "validate url",
+                    "verify ipv4",
+                    "validate ipv4",
+                    "verify uuid",
+                    "validate uuid",
+                    "regex pattern",
+                    "regex match",
+                ]
+            ):
+                state.tool_candidate = "regex_verifier"
+
+            # ---------------- Python ----------------
+
+            elif any(
+                phrase in q
+                for phrase in [
+                    "run python",
+                    "execute python",
+                    "execute code",
+                    "run this code",
+                ]
+            ):
+                state.tool_candidate = "python_executor"
+
+            # ---------------- Verification ----------------
+
+            elif (
+                "verify json" in q
+                or "verification" in q
+            ):
+                state.tool_candidate = "verification"
 
         # =================================================
         # TASK TYPE
@@ -148,6 +158,7 @@ class TaskAnalyzer:
             word in q
             for word in [
                 "sentiment",
+                "classify sentiment",
                 "positive",
                 "negative",
                 "neutral",
@@ -158,13 +169,10 @@ class TaskAnalyzer:
         elif any(
             word in q
             for word in [
-                "entity",
-                "entities",
-                "person",
-                "organization",
-                "organisation",
-                "location",
                 "named entity",
+                "extract entities",
+                "extract named entities",
+                "entities",
             ]
         ):
             state.task_type = "ner"
@@ -175,51 +183,61 @@ class TaskAnalyzer:
                 "debug",
                 "bug",
                 "traceback",
-                "error",
-                "fix",
                 "exception",
+                "fix",
+                "error",
             ]
         ):
             state.task_type = "code_debug"
 
         elif any(
-            word in q
-            for word in [
+            phrase in q
+            for phrase in [
+                "write a python function",
+                "python function",
                 "write a function",
                 "generate code",
-                "implement",
-                "write python",
                 "write code",
+                "implement",
             ]
         ):
             state.task_type = "code_generation"
 
-        elif (
-            state.tool_candidate == "calculator"
-            or any(
-                word in q
-                for word in [
-                    "equation",
-                    "percentage",
-                    "probability",
-                    "integral",
-                    "derivative",
-                ]
-            )
-        ):
-            state.task_type = "math"
-
         elif any(
-            word in q
-            for word in [
+            phrase in q
+            for phrase in [
                 "logic",
                 "puzzle",
                 "deduce",
                 "deduction",
-                "constraint",
+                "who owns",
+                "arrangement",
+                "arrangements",
+                "circular table",
+                "opposite",
+                "left of",
+                "right of",
             ]
         ):
             state.task_type = "logic"
+
+        elif (
+            state.tool_candidate == "calculator"
+            or (
+                re.search(r"\d", q)
+                and any(
+                    word in q
+                    for word in [
+                        "equation",
+                        "percentage",
+                        "probability",
+                        "integral",
+                        "derivative",
+                    ]
+                )
+            )
+        ):
+            state.task_type = "math"
 
         else:
             state.task_type = "factual"
@@ -239,8 +257,6 @@ class TaskAnalyzer:
         else:
             state.difficulty = "hard"
 
-        # Long reasoning tasks are harder
-
         if state.task_type in [
             "logic",
             "code_generation",
@@ -248,11 +264,13 @@ class TaskAnalyzer:
         ]:
             state.difficulty = "hard"
 
-        elif state.task_type in [
-            "summarization",
-            "ner",
-        ]:
-            if words > 25:
-                state.difficulty = "hard"
+        elif (
+            state.task_type in [
+                "summarization",
+                "ner",
+            ]
+            and words > 25
+        ):
+            state.difficulty = "hard"
 
         return state
