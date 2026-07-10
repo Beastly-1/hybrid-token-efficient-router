@@ -26,25 +26,3 @@ class JSONValidator:
     def pretty(self, data):
         return json.dumps(data, indent=4)
 
-validator = JSONValidator()
-
-schema = {
-    "type": "object",
-    "properties": {
-        "name": {"type": "string"},
-        "age": {"type": "number"}
-    },
-    "required": ["name", "age"]
-}
-
-data1 = {
-    "name": "Harshith",
-    "age": 19
-}
-
-data2 = {
-    "name": "Harshith"
-}
-
-print(validator.validate_schema(data1, schema))
-print(validator.validate_schema(data2, schema))

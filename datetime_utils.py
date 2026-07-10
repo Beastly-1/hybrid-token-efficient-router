@@ -53,22 +53,3 @@ class DateTimeUtils:
 
     def current_timestamp(self):
         return int(datetime.now().timestamp())
-dt = DateTimeUtils()
-
-print(dt.current_date())
-print(dt.current_time())
-print(dt.current_datetime())
-
-print(dt.day_of_week("2026-07-09"))
-
-print(dt.add_days("2026-07-09", 30))
-print(dt.subtract_days("2026-07-09", 10))
-
-print(dt.days_between("2026-07-09", "2026-08-09"))
-
-print(dt.format_date("2026-07-09", "%d/%m/%Y"))
-
-print(dt.is_leap_year(2024))
-print(dt.is_leap_year(2025))
-
-print(dt.current_timestamp())

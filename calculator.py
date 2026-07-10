@@ -110,22 +110,3 @@ class Calculator:
             raise ValueError(f"Unknown constant '{node.id}'.")
 
         raise ValueError("Invalid expression.")
-calc = Calculator()
-
-print(calc.calculate("2 + 3 * 4"))
-
-print(calc.calculate("sqrt(81)"))
-
-print(calc.calculate("factorial(5)"))
-
-print(calc.calculate("sin(pi/2)"))
-
-print(calc.calculate("log(e)"))
-
-print(calc.calculate("2 ** 10"))
-
-print(calc.calculate("100 // 3"))
-
-print(calc.calculate("100 % 7"))
-
-print(calc.calculate("round(3.14159,2)"))
