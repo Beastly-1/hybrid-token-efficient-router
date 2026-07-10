@@ -16,12 +16,25 @@ class RoutingState:
     task_type: str = "general"
     difficulty: str = "medium"
     tool_candidate: Optional[str] = None
+    task_signals: dict = field(default_factory=dict)
+
+    # ==========================
+    # Pre-router controls
+    # ==========================
+    system_prompt: str = ""
+    max_new_tokens: int = 0
+    timeout_seconds: int = 0
+    input_valid: bool = True
+    input_issues: list[str] = field(default_factory=list)
 
     # ==========================
     # Local Model
     # ==========================
     local_answer: str = ""
     logprobs: list = field(default_factory=list)
+    local_device: str = ""
+    local_fallback_used: bool = False
+    local_runtime_error: str = ""
 
     # ==========================
     # Confidence Evaluator
@@ -38,6 +51,8 @@ class RoutingState:
     # Remote Model
     # ==========================
     remote_answer: str = ""
+    selected_model: str = ""
+    estimated_remote_cost: float = 0.0
 
     # ==========================
     # Final Decision
@@ -49,3 +64,4 @@ class RoutingState:
     # Debug Information
     # ==========================
     routing_reason: str = ""
+    tool_used: Optional[str] = None

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Python
 __pycache__/
 *.py[cod]
@@ -17,3 +18,12 @@ output.txt
 # OS
 .DS_Store
 Thumbs.db
+=======
+__pycache__/
+*.py[cod]
+.venv/
+.openvino_cache/
+models/qwen2.5-1.5b-instruct-int4-ov/.cache/
+.pytest_cache/
+pytest-cache-files-*/
+>>>>>>> origin/with-step-1-again
