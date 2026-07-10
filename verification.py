@@ -1,7 +1,7 @@
-from tools.json_validator import JSONValidator
-from tools.regex_verifier import RegexVerifier
-from tools.calculator import Calculator
-from tools.datetime_utils import DateTimeUtils
+from json_validator import JSONValidator
+from regex_verifier import RegexVerifier
+from calculator import Calculator
+from datetime_utils import DateTimeUtils
 
 
 class Verification:

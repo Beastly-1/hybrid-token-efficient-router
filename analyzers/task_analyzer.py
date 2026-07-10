@@ -3,91 +3,256 @@ from state import RoutingState
 
 class TaskAnalyzer:
     """
-    Classifies the incoming task before any model is called.
-    This stage costs 0 tokens and helps the router make better decisions.
+    Lightweight zero-token analyzer.
+
+    Determines:
+    - Task type
+    - Difficulty
+    - Candidate tool
     """
 
     def analyze(self, state: RoutingState):
 
-        query = state.query.lower()
+        query = state.query
+        q = query.lower()
 
-        # -------------------------
-        # Default values
-        # -------------------------
+        # -------------------------------------------------
+        # Defaults
+        # -------------------------------------------------
 
-        state.task_type = "general"
+        state.task_type = "factual"
         state.difficulty = "medium"
         state.tool_candidate = None
 
-        # -------------------------
-        # Task Classification
-        # -------------------------
+        # =================================================
+        # TOOL DETECTION
+        # =================================================
 
-        if any(word in query for word in [
-            "summarize", "summary", "summarise"
-        ]):
+        # ---------------- Calculator ----------------
+
+        math_keywords = [
+            "calculate",
+            "compute",
+            "evaluate",
+            "simplify",
+            "sqrt",
+            "sin",
+            "cos",
+            "tan",
+            "factorial",
+            "log",
+            "exp",
+        ]
+
+        operators = [
+            "+",
+            "-",
+            "*",
+            "/",
+            "%",
+            "**",
+            "//",
+            "^",
+        ]
+
+        if (
+            any(op in q for op in operators)
+            or any(word in q for word in math_keywords)
+        ):
+            state.tool_candidate = "calculator"
+
+        # ---------------- JSON ----------------
+
+        elif (
+            "json" in q
+            and (
+                "validate" in q
+                or "schema" in q
+                or "parse" in q
+                or "pretty" in q
+            )
+        ):
+            state.tool_candidate = "json_validator"
+
+        # ---------------- Regex ----------------
+
+        elif any(
+            word in q
+            for word in [
+                "email",
+                "phone",
+                "url",
+                "uuid",
+                "ipv4",
+                "regex",
+                "date format",
+                "time format",
+            ]
+        ):
+            state.tool_candidate = "regex_verifier"
+
+        # ---------------- DateTime ----------------
+
+        elif any(
+            word in q
+            for word in [
+                "current date",
+                "today",
+                "current time",
+                "timestamp",
+                "day of week",
+                "days between",
+                "add days",
+                "subtract days",
+                "leap year",
+            ]
+        ):
+            state.tool_candidate = "datetime"
+
+        # ---------------- Python ----------------
+
+        elif any(
+            word in q
+            for word in [
+                "run python",
+                "execute python",
+                "execute code",
+                "run this code",
+            ]
+        ):
+            state.tool_candidate = "python_executor"
+
+        # ---------------- Verification ----------------
+
+        elif (
+            "verify" in q
+            or "validation" in q
+        ):
+            state.tool_candidate = "verification"
+
+        # =================================================
+        # TASK TYPE
+        # =================================================
+
+        if any(
+            word in q
+            for word in [
+                "summarize",
+                "summarise",
+                "summary",
+            ]
+        ):
             state.task_type = "summarization"
 
-        elif any(word in query for word in [
-            "sentiment", "positive", "negative", "neutral"
-        ]):
+        elif any(
+            word in q
+            for word in [
+                "sentiment",
+                "positive",
+                "negative",
+                "neutral",
+            ]
+        ):
             state.task_type = "sentiment"
 
-        elif any(word in query for word in [
-            "entity", "entities", "person", "organization",
-            "organisation", "location"
-        ]):
+        elif any(
+            word in q
+            for word in [
+                "entity",
+                "entities",
+                "person",
+                "organization",
+                "organisation",
+                "location",
+                "named entity",
+            ]
+        ):
             state.task_type = "ner"
 
-        elif any(word in query for word in [
-            "debug", "fix", "bug", "error", "traceback"
-        ]):
+        elif any(
+            word in q
+            for word in [
+                "debug",
+                "bug",
+                "traceback",
+                "error",
+                "fix",
+                "exception",
+            ]
+        ):
             state.task_type = "code_debug"
 
-        elif any(word in query for word in [
-            "write a python function",
-            "write a function",
-            "implement",
-            "generate code"
-        ]):
+        elif any(
+            word in q
+            for word in [
+                "write a function",
+                "generate code",
+                "implement",
+                "write python",
+                "write code",
+            ]
+        ):
             state.task_type = "code_generation"
 
-        elif any(word in query for word in [
-            "solve", "calculate", "percentage", "probability",
-            "equation"
-        ]):
+        elif (
+            state.tool_candidate == "calculator"
+            or any(
+                word in q
+                for word in [
+                    "equation",
+                    "percentage",
+                    "probability",
+                    "integral",
+                    "derivative",
+                ]
+            )
+        ):
             state.task_type = "math"
 
-        elif any(word in query for word in [
-            "logic", "puzzle", "deduce", "deduction"
-        ]):
+        elif any(
+            word in q
+            for word in [
+                "logic",
+                "puzzle",
+                "deduce",
+                "deduction",
+                "constraint",
+            ]
+        ):
             state.task_type = "logic"
 
         else:
             state.task_type = "factual"
 
-        # -------------------------
-        # Difficulty Estimation
-        # -------------------------
+        # =================================================
+        # DIFFICULTY
+        # =================================================
 
         words = len(query.split())
 
-        if words < 10:
+        if words <= 8:
             state.difficulty = "easy"
 
-        elif words < 40:
+        elif words <= 35:
             state.difficulty = "medium"
 
         else:
             state.difficulty = "hard"
 
-        # -------------------------
-        # Tool Detection
-        # -------------------------
+        # Long reasoning tasks are harder
 
-        if any(op in query for op in [
-            "+", "-", "*", "/", "%"
-        ]):
-            state.tool_candidate = "calculator"
+        if state.task_type in [
+            "logic",
+            "code_generation",
+            "code_debug",
+        ]:
+            state.difficulty = "hard"
+
+        elif state.task_type in [
+            "summarization",
+            "ner",
+        ]:
+            if words > 25:
+                state.difficulty = "hard"
 
         return state

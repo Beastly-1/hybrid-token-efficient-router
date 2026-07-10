@@ -1,9 +1,9 @@
-from tools.calculator import Calculator
-from tools.datetime_utils import DateTimeUtils
-from tools.json_validator import JSONValidator
-from tools.regex_verifier import RegexVerifier
-from tools.python_executor import PythonExecutor
-from tools.verification import Verification
+from calculator import Calculator
+from datetime_utils import DateTimeUtils
+from json_validator import JSONValidator
+from regex_verifier import RegexVerifier
+from python_executor import PythonExecutor
+from verification import Verification
 
 
 class ToolRegistry:
