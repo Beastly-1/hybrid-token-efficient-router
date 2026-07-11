@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-11T20:11:33+0530",
+  "strategies": [
+    {
+      "strategy": "s1",
+      "total_cases": 10,
+      "scored_cases": 10,
+      "correct_cases": 10,
+      "accuracy": 1.0,
+      "mean_score": 1.0,
+      "fireworks_call_count": 0,
+      "fireworks_call_rate": 0.0,
+      "fireworks_prompt_tokens": 0,
+      "fireworks_completion_tokens": 0,
+      "fireworks_total_tokens": 0,
+      "actual_cost": 0.0,
+      "estimated_cost": 0.0,
+      "average_latency_ms": 50.0,
+      "p95_latency_ms": 50.0,
+      "route_distribution": {
+        "local": 10
+      },
+      "model_usage": {},
+      "tokens_per_correct": 0.0,
+      "cost_per_correct": 0.0,
+      "by_category": {
+        "math": {
+          "total": 10,
+          "accuracy": 1.0
+        }
+      }
+    },
+    {
+      "strategy": "s2",
+      "total_cases": 10,
+      "scored_cases": 10,
+      "correct_cases": 10,
+      "accuracy": 1.0,
+      "mean_score": 1.0,
+      "fireworks_call_count": 0,
+      "fireworks_call_rate": 0.0,
+      "fireworks_prompt_tokens": 0,
+      "fireworks_completion_tokens": 0,
+      "fireworks_total_tokens": 0,
+      "actual_cost": 0.0,
+      "estimated_cost": 0.0,
+      "average_latency_ms": 50.0,
+      "p95_latency_ms": 50.0,
+      "route_distribution": {
+        "local": 10
+      },
+      "model_usage": {},
+      "tokens_per_correct": 0.0,
+      "cost_per_correct": 0.0,
+      "by_category": {
+        "math": {
+          "total": 10,
+          "accuracy": 1.0
+        }
+      }
+    }
+  ],
+  "pareto_efficient": {
+    "accuracy_vs_tokens": [
+      "s1",
+      "s2"
+    ],
+    "accuracy_vs_cost": [
+      "s1",
+      "s2"
+    ],
+    "accuracy_vs_latency": [
+      "s1",
+      "s2"
+    ]
+  },
+  "warnings": {
+    "small_sample_strategies": [
+      "s1",
+      "s2"
+    ],
+    "note": "Statistical significance not claimed for small sample sizes."
+  }
+}

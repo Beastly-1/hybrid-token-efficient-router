@@ -1,0 +1,137 @@
+{
+  "overall": {
+    "total_cases": 16,
+    "scored_cases": 16,
+    "correct_cases": 16,
+    "accuracy": 1.0,
+    "mean_score": 1.0,
+    "invalid_answer_count": 0,
+    "unsupported_count": 0,
+    "execution_failure_count": 0
+  },
+  "by_category": {
+    "code_debug": {
+      "total": 2,
+      "correct": 2,
+      "accuracy": 1.0,
+      "mean_score": 1.0,
+      "fireworks_calls": 0,
+      "total_fireworks_tokens": 0,
+      "actual_cost": null,
+      "average_latency_ms": 0.09,
+      "p95_latency_ms": 0.1
+    },
+    "code_generation": {
+      "total": 2,
+      "correct": 2,
+      "accuracy": 1.0,
+      "mean_score": 1.0,
+      "fireworks_calls": 0,
+      "total_fireworks_tokens": 0,
+      "actual_cost": null,
+      "average_latency_ms": 0.13,
+      "p95_latency_ms": 0.19
+    },
+    "factual": {
+      "total": 2,
+      "correct": 2,
+      "accuracy": 1.0,
+      "mean_score": 1.0,
+      "fireworks_calls": 0,
+      "total_fireworks_tokens": 0,
+      "actual_cost": null,
+      "average_latency_ms": 0.175,
+      "p95_latency_ms": 0.21
+    },
+    "logic": {
+      "total": 2,
+      "correct": 2,
+      "accuracy": 1.0,
+      "mean_score": 1.0,
+      "fireworks_calls": 0,
+      "total_fireworks_tokens": 0,
+      "actual_cost": null,
+      "average_latency_ms": 0.07,
+      "p95_latency_ms": 0.07
+    },
+    "math": {
+      "total": 2,
+      "correct": 2,
+      "accuracy": 1.0,
+      "mean_score": 1.0,
+      "fireworks_calls": 0,
+      "total_fireworks_tokens": 0,
+      "actual_cost": null,
+      "average_latency_ms": 0.31,
+      "p95_latency_ms": 0.5
+    },
+    "ner": {
+      "total": 2,
+      "correct": 2,
+      "accuracy": 1.0,
+      "mean_score": 1.0,
+      "fireworks_calls": 0,
+      "total_fireworks_tokens": 0,
+      "actual_cost": null,
+      "average_latency_ms": 0.08,
+      "p95_latency_ms": 0.08
+    },
+    "sentiment": {
+      "total": 2,
+      "correct": 2,
+      "accuracy": 1.0,
+      "mean_score": 1.0,
+      "fireworks_calls": 0,
+      "total_fireworks_tokens": 0,
+      "actual_cost": null,
+      "average_latency_ms": 0.1,
+      "p95_latency_ms": 0.1
+    },
+    "summarization": {
+      "total": 2,
+      "correct": 2,
+      "accuracy": 1.0,
+      "mean_score": 1.0,
+      "fireworks_calls": 0,
+      "total_fireworks_tokens": 0,
+      "actual_cost": null,
+      "average_latency_ms": 0.09,
+      "p95_latency_ms": 0.09
+    }
+  },
+  "by_difficulty": {
+    "easy": {
+      "total": 5,
+      "correct": 5,
+      "accuracy": 1.0,
+      "mean_score": 1.0
+    },
+    "hard": {
+      "total": 4,
+      "correct": 4,
+      "accuracy": 1.0,
+      "mean_score": 1.0
+    },
+    "medium": {
+      "total": 7,
+      "correct": 7,
+      "accuracy": 1.0,
+      "mean_score": 1.0
+    }
+  },
+  "by_route": {
+    "local": {
+      "count": 16,
+      "accuracy": 1.0,
+      "mean_score": 1.0
+    }
+  },
+  "by_model": {},
+  "efficiency": {
+    "tool_solve_rate": null,
+    "local_acceptance_rate": 1.0,
+    "fireworks_call_rate": 0.0,
+    "fireworks_tokens_per_correct": 0.0,
+    "actual_cost_per_correct": 0.0
+  }
+}

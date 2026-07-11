@@ -53,6 +53,13 @@ class RoutingState:
     remote_answer: str = ""
     selected_model: str = ""
     estimated_remote_cost: float = 0.0
+    remote_prompt_tokens: Optional[int] = None
+    remote_completion_tokens: Optional[int] = None
+    remote_total_tokens: Optional[int] = None
+    remote_latency_ms: Optional[float] = None
+    remote_usage_source: Optional[str] = None
+    actual_remote_cost: Optional[float] = None
+    remote_cost_source: Optional[str] = None
 
     # ==========================
     # Final Decision

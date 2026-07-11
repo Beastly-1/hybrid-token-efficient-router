@@ -1,0 +1,25 @@
+{
+  "schema_version": 2,
+  "generated_at": "2026-07-11T19:55:29+0530",
+  "minimum_accuracy": 0.5,
+  "objective": "tokens",
+  "thresholds": {
+    "math": {
+      "threshold": 0.0,
+      "constraint_met": true,
+      "sample_count": 10,
+      "accuracy": 1.0,
+      "local_acceptance_rate": 1.0,
+      "incorrect_local_rate": 0.0,
+      "fireworks_call_rate": 0.0,
+      "total_fireworks_tokens": 0,
+      "total_cost": 0.0,
+      "objective_value": 0,
+      "difficulty_thresholds": {
+        "easy": 0.0
+      }
+    }
+  },
+  "model_profiles": [],
+  "strategy_summary": {}
+}

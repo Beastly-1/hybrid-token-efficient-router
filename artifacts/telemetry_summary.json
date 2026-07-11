@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "source_file": "logs\\routing.jsonl",
+  "records": {
+    "valid": 16,
+    "malformed": 0,
+    "total_lines": 16
+  },
+  "requests": {
+    "total": 16,
+    "successful": 16,
+    "failed": 0,
+    "failure_rate": 0.0
+  },
+  "routes": {
+    "tool": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "local": {
+      "count": 8,
+      "rate": 0.5
+    },
+    "fireworks": {
+      "count": 8,
+      "rate": 0.5
+    },
+    "error": {
+      "count": 0,
+      "rate": 0.0
+    }
+  },
+  "fireworks": {
+    "call_count": 8,
+    "call_rate": 0.5,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0,
+    "usage_available_count": 0,
+    "usage_missing_count": 8,
+    "estimated_cost_total": 0.0,
+    "actual_cost_total": 0.0,
+    "actual_cost_available_count": 0,
+    "actual_cost_unavailable_count": 8,
+    "missing_model_count": 0
+  },
+  "latency_ms": {
+    "total": {
+      "count": 16,
+      "average": 0.166875,
+      "p50": 0.11499999999999999,
+      "p95": 0.47
+    },
+    "fireworks": {
+      "count": 0,
+      "average": null,
+      "p50": null,
+      "p95": null
+    }
+  },
+  "by_task_type": {
+    "factual": {
+      "total": 16,
+      "successful": 16,
+      "failed": 0,
+      "tool_routes": 0,
+      "local_routes": 8,
+      "fireworks_routes": 8,
+      "error_routes": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_total": 0.0,
+      "actual_cost_total": 0.0,
+      "fireworks_call_rate": 0.5,
+      "average_total_latency_ms": 0.166875,
+      "p95_total_latency_ms": 0.47
+    }
+  },
+  "by_model": {
+    "accounts/fireworks/models/deepseek-v3p1": {
+      "call_count": 8,
+      "successful": 8,
+      "failed": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_total": 0.0,
+      "actual_cost_total": 0.0,
+      "actual_cost_available": 0,
+      "actual_cost_unavailable": 8,
+      "usage_available": 0,
+      "usage_missing": 8,
+      "average_remote_latency_ms": null,
+      "p95_remote_latency_ms": null
+    }
+  }
+}

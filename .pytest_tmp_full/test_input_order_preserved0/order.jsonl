@@ -1,0 +1,3 @@
+{"task_id": "z_first", "category": "factual", "difficulty": "easy", "prompt": "What is 1+1?", "scoring_method": "exact", "reference": "2"}
+{"task_id": "a_second", "category": "factual", "difficulty": "easy", "prompt": "What is 1+1?", "scoring_method": "exact", "reference": "2"}
+{"task_id": "m_third", "category": "factual", "difficulty": "easy", "prompt": "What is 1+1?", "scoring_method": "exact", "reference": "2"}

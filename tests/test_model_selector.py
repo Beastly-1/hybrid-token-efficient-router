@@ -1,5 +1,10 @@
+from pathlib import Path
+
 from decision.model_selector import ModelSelector
 from state import RoutingState
+
+# Disable calibration in static-policy tests
+_NO_CAL = Path("__nonexistent_calibration__")
 
 
 def test_selects_lowest_cost_eligible_model():
@@ -21,6 +26,7 @@ def test_selects_lowest_cost_eligible_model():
             },
         ],
         allowed_models=["cheap-general", "expensive-specialist"],
+        calibration_path=_NO_CAL,
     )
     state = RoutingState(
         query="Summarize this short text.",
@@ -54,6 +60,7 @@ def test_quality_first_prefers_task_specialist():
             },
         ],
         selection_mode="quality_first",
+        calibration_path=_NO_CAL,
     )
     state = RoutingState(query="Solve this.", task_type="logic", difficulty="hard")
 
@@ -81,6 +88,7 @@ def test_balanced_still_prefers_cheaper_model_when_gap_is_clear():
             },
         ],
         selection_mode="balanced",
+        calibration_path=_NO_CAL,
     )
     state = RoutingState(query="Solve this.", task_type="logic", difficulty="hard")
 

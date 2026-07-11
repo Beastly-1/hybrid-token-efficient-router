@@ -1,0 +1,3 @@
+{"task_id": "test_001", "category": "factual", "difficulty": "easy", "prompt": "What is 1+1?", "scoring_method": "exact", "reference": "2"}
+not valid json
+{"task_id": "x", "category": "factual", "difficulty": "easy", "prompt": "What is 1+1?", "scoring_method": "exact", "reference": "2"}

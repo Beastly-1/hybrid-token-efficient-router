@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "source_file": "C:\\code\\hybrid-token-efficient-router\\.pytest_tmp_full\\test_telemetry_cli_backwards_c0\\routing.jsonl",
+  "records": {
+    "valid": 1,
+    "malformed": 0,
+    "total_lines": 1
+  },
+  "requests": {
+    "total": 1,
+    "successful": 1,
+    "failed": 0,
+    "failure_rate": 0.0
+  },
+  "routes": {
+    "tool": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "local": {
+      "count": 1,
+      "rate": 1.0
+    },
+    "fireworks": {
+      "count": 0,
+      "rate": 0.0
+    },
+    "error": {
+      "count": 0,
+      "rate": 0.0
+    }
+  },
+  "fireworks": {
+    "call_count": 0,
+    "call_rate": 0.0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0,
+    "usage_available_count": 0,
+    "usage_missing_count": 0,
+    "estimated_cost_total": 0.0,
+    "actual_cost_total": 0.0,
+    "actual_cost_available_count": 0,
+    "actual_cost_unavailable_count": 0,
+    "missing_model_count": 0
+  },
+  "latency_ms": {
+    "total": {
+      "count": 0,
+      "average": null,
+      "p50": null,
+      "p95": null
+    },
+    "fireworks": {
+      "count": 0,
+      "average": null,
+      "p50": null,
+      "p95": null
+    }
+  },
+  "by_task_type": {
+    "factual": {
+      "total": 1,
+      "successful": 1,
+      "failed": 0,
+      "tool_routes": 0,
+      "local_routes": 1,
+      "fireworks_routes": 0,
+      "error_routes": 0,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_total": 0.0,
+      "actual_cost_total": 0.0,
+      "fireworks_call_rate": 0.0,
+      "average_total_latency_ms": null,
+      "p95_total_latency_ms": null
+    }
+  },
+  "by_model": {}
+}

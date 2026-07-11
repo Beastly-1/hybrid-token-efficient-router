@@ -1,0 +1,456 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-11T19:53:47+0530",
+  "strategies": [
+    {
+      "strategy": "always_local",
+      "total_cases": 360,
+      "scored_cases": 360,
+      "correct_cases": 271,
+      "accuracy": 0.7527777777777778,
+      "mean_score": 0.818118091943326,
+      "fireworks_call_count": 0,
+      "fireworks_call_rate": 0.0,
+      "fireworks_prompt_tokens": 0,
+      "fireworks_completion_tokens": 0,
+      "fireworks_total_tokens": 0,
+      "actual_cost": 0.0,
+      "estimated_cost": 0.0,
+      "average_latency_ms": 27.448225506764295,
+      "p95_latency_ms": 47.0981408261302,
+      "route_distribution": {
+        "local": 360
+      },
+      "model_usage": {},
+      "tokens_per_correct": 0.0,
+      "cost_per_correct": 0.0,
+      "by_category": {
+        "code_debug": {
+          "total": 45,
+          "accuracy": 0.7333333333333333
+        },
+        "code_generation": {
+          "total": 45,
+          "accuracy": 0.6666666666666666
+        },
+        "factual": {
+          "total": 45,
+          "accuracy": 0.7777777777777778
+        },
+        "logic": {
+          "total": 45,
+          "accuracy": 0.7333333333333333
+        },
+        "math": {
+          "total": 45,
+          "accuracy": 0.8
+        },
+        "ner": {
+          "total": 45,
+          "accuracy": 0.7333333333333333
+        },
+        "sentiment": {
+          "total": 45,
+          "accuracy": 0.8666666666666667
+        },
+        "summarization": {
+          "total": 45,
+          "accuracy": 0.7111111111111111
+        }
+      }
+    },
+    {
+      "strategy": "always_remote",
+      "total_cases": 360,
+      "scored_cases": 360,
+      "correct_cases": 268,
+      "accuracy": 0.7444444444444445,
+      "mean_score": 0.8039359396970623,
+      "fireworks_call_count": 360,
+      "fireworks_call_rate": 1.0,
+      "fireworks_prompt_tokens": 61072,
+      "fireworks_completion_tokens": 26086,
+      "fireworks_total_tokens": 87487,
+      "actual_cost": 0.0174974,
+      "estimated_cost": 0.019247140000000003,
+      "average_latency_ms": 109.12482631210506,
+      "p95_latency_ms": 190.8658669612853,
+      "route_distribution": {
+        "fireworks": 360
+      },
+      "model_usage": {
+        "accounts/fireworks/models/gemma-4-31b-it": 76,
+        "accounts/fireworks/models/gemma-4-26b-a4b-it": 61,
+        "accounts/fireworks/models/gemma-4-31b-it-nvfp4": 78,
+        "accounts/fireworks/models/kimi-k2p7-code": 79,
+        "accounts/fireworks/models/minimax-m3": 66
+      },
+      "tokens_per_correct": 326.4440298507463,
+      "cost_per_correct": 6.528880597014925e-05,
+      "by_category": {
+        "code_debug": {
+          "total": 45,
+          "accuracy": 0.7555555555555555
+        },
+        "code_generation": {
+          "total": 45,
+          "accuracy": 0.6888888888888889
+        },
+        "factual": {
+          "total": 45,
+          "accuracy": 0.7777777777777778
+        },
+        "logic": {
+          "total": 45,
+          "accuracy": 0.6444444444444445
+        },
+        "math": {
+          "total": 45,
+          "accuracy": 0.7555555555555555
+        },
+        "ner": {
+          "total": 45,
+          "accuracy": 0.7111111111111111
+        },
+        "sentiment": {
+          "total": 45,
+          "accuracy": 0.8
+        },
+        "summarization": {
+          "total": 45,
+          "accuracy": 0.8222222222222222
+        }
+      }
+    },
+    {
+      "strategy": "current_router",
+      "total_cases": 360,
+      "scored_cases": 360,
+      "correct_cases": 281,
+      "accuracy": 0.7805555555555556,
+      "mean_score": 0.8373787566022876,
+      "fireworks_call_count": 216,
+      "fireworks_call_rate": 0.6,
+      "fireworks_prompt_tokens": 37110,
+      "fireworks_completion_tokens": 15851,
+      "fireworks_total_tokens": 53157,
+      "actual_cost": 0.010631400000000001,
+      "estimated_cost": 0.011694540000000002,
+      "average_latency_ms": 76.85820284404676,
+      "p95_latency_ms": 185.63386331593813,
+      "route_distribution": {
+        "fireworks": 216,
+        "local": 144
+      },
+      "model_usage": {
+        "accounts/fireworks/models/minimax-m3": 48,
+        "accounts/fireworks/models/gemma-4-26b-a4b-it": 38,
+        "accounts/fireworks/models/gemma-4-31b-it-nvfp4": 52,
+        "accounts/fireworks/models/kimi-k2p7-code": 40,
+        "accounts/fireworks/models/gemma-4-31b-it": 38
+      },
+      "tokens_per_correct": 189.17081850533808,
+      "cost_per_correct": 3.783416370106762e-05,
+      "by_category": {
+        "code_debug": {
+          "total": 45,
+          "accuracy": 0.8
+        },
+        "code_generation": {
+          "total": 45,
+          "accuracy": 0.6888888888888889
+        },
+        "factual": {
+          "total": 45,
+          "accuracy": 0.8444444444444444
+        },
+        "logic": {
+          "total": 45,
+          "accuracy": 0.7111111111111111
+        },
+        "math": {
+          "total": 45,
+          "accuracy": 0.7555555555555555
+        },
+        "ner": {
+          "total": 45,
+          "accuracy": 0.7333333333333333
+        },
+        "sentiment": {
+          "total": 45,
+          "accuracy": 0.8666666666666667
+        },
+        "summarization": {
+          "total": 45,
+          "accuracy": 0.8444444444444444
+        }
+      }
+    },
+    {
+      "strategy": "cost_first",
+      "total_cases": 360,
+      "scored_cases": 360,
+      "correct_cases": 294,
+      "accuracy": 0.8166666666666667,
+      "mean_score": 0.86543028920645,
+      "fireworks_call_count": 360,
+      "fireworks_call_rate": 1.0,
+      "fireworks_prompt_tokens": 59842,
+      "fireworks_completion_tokens": 25546,
+      "fireworks_total_tokens": 85721,
+      "actual_cost": 0.017144200000000002,
+      "estimated_cost": 0.018858620000000003,
+      "average_latency_ms": 113.80658769562329,
+      "p95_latency_ms": 189.07794923143445,
+      "route_distribution": {
+        "fireworks": 360
+      },
+      "model_usage": {
+        "accounts/fireworks/models/gemma-4-31b-it": 360
+      },
+      "tokens_per_correct": 291.56802721088434,
+      "cost_per_correct": 5.831360544217688e-05,
+      "by_category": {
+        "code_debug": {
+          "total": 45,
+          "accuracy": 0.7111111111111111
+        },
+        "code_generation": {
+          "total": 45,
+          "accuracy": 0.8222222222222222
+        },
+        "factual": {
+          "total": 45,
+          "accuracy": 0.8
+        },
+        "logic": {
+          "total": 45,
+          "accuracy": 0.8
+        },
+        "math": {
+          "total": 45,
+          "accuracy": 0.9111111111111111
+        },
+        "ner": {
+          "total": 45,
+          "accuracy": 0.7555555555555555
+        },
+        "sentiment": {
+          "total": 45,
+          "accuracy": 0.8222222222222222
+        },
+        "summarization": {
+          "total": 45,
+          "accuracy": 0.9111111111111111
+        }
+      }
+    },
+    {
+      "strategy": "accuracy_first",
+      "total_cases": 360,
+      "scored_cases": 360,
+      "correct_cases": 280,
+      "accuracy": 0.7777777777777778,
+      "mean_score": 0.8265487369433594,
+      "fireworks_call_count": 360,
+      "fireworks_call_rate": 1.0,
+      "fireworks_prompt_tokens": 60355,
+      "fireworks_completion_tokens": 25754,
+      "fireworks_total_tokens": 86438,
+      "actual_cost": 0.0172876,
+      "estimated_cost": 0.019016360000000003,
+      "average_latency_ms": 107.0085616980946,
+      "p95_latency_ms": 192.3361270439434,
+      "route_distribution": {
+        "fireworks": 360
+      },
+      "model_usage": {
+        "accounts/fireworks/models/kimi-k2p7-code": 360
+      },
+      "tokens_per_correct": 308.70714285714286,
+      "cost_per_correct": 6.174142857142857e-05,
+      "by_category": {
+        "code_debug": {
+          "total": 45,
+          "accuracy": 0.7111111111111111
+        },
+        "code_generation": {
+          "total": 45,
+          "accuracy": 0.6222222222222222
+        },
+        "factual": {
+          "total": 45,
+          "accuracy": 0.8222222222222222
+        },
+        "logic": {
+          "total": 45,
+          "accuracy": 0.8222222222222222
+        },
+        "math": {
+          "total": 45,
+          "accuracy": 0.7777777777777778
+        },
+        "ner": {
+          "total": 45,
+          "accuracy": 0.8
+        },
+        "sentiment": {
+          "total": 45,
+          "accuracy": 0.8888888888888888
+        },
+        "summarization": {
+          "total": 45,
+          "accuracy": 0.7777777777777778
+        }
+      }
+    },
+    {
+      "strategy": "balanced",
+      "total_cases": 360,
+      "scored_cases": 360,
+      "correct_cases": 278,
+      "accuracy": 0.7722222222222223,
+      "mean_score": 0.8327723377220816,
+      "fireworks_call_count": 248,
+      "fireworks_call_rate": 0.6888888888888889,
+      "fireworks_prompt_tokens": 41642,
+      "fireworks_completion_tokens": 17791,
+      "fireworks_total_tokens": 59649,
+      "actual_cost": 0.0119298,
+      "estimated_cost": 0.013122780000000002,
+      "average_latency_ms": 83.5237584179892,
+      "p95_latency_ms": 181.48641117526273,
+      "route_distribution": {
+        "fireworks": 248,
+        "local": 112
+      },
+      "model_usage": {
+        "accounts/fireworks/models/gemma-4-26b-a4b-it": 85,
+        "accounts/fireworks/models/gemma-4-31b-it": 80,
+        "accounts/fireworks/models/kimi-k2p7-code": 83
+      },
+      "tokens_per_correct": 214.56474820143885,
+      "cost_per_correct": 4.291294964028777e-05,
+      "by_category": {
+        "code_debug": {
+          "total": 45,
+          "accuracy": 0.8
+        },
+        "code_generation": {
+          "total": 45,
+          "accuracy": 0.7333333333333333
+        },
+        "factual": {
+          "total": 45,
+          "accuracy": 0.8
+        },
+        "logic": {
+          "total": 45,
+          "accuracy": 0.7333333333333333
+        },
+        "math": {
+          "total": 45,
+          "accuracy": 0.7555555555555555
+        },
+        "ner": {
+          "total": 45,
+          "accuracy": 0.8222222222222222
+        },
+        "sentiment": {
+          "total": 45,
+          "accuracy": 0.8444444444444444
+        },
+        "summarization": {
+          "total": 45,
+          "accuracy": 0.6888888888888889
+        }
+      }
+    },
+    {
+      "strategy": "calibrated",
+      "total_cases": 360,
+      "scored_cases": 360,
+      "correct_cases": 287,
+      "accuracy": 0.7972222222222223,
+      "mean_score": 0.8447737743595515,
+      "fireworks_call_count": 257,
+      "fireworks_call_rate": 0.7138888888888889,
+      "fireworks_prompt_tokens": 43168,
+      "fireworks_completion_tokens": 18455,
+      "fireworks_total_tokens": 61851,
+      "actual_cost": 0.012370200000000001,
+      "estimated_cost": 0.013607220000000001,
+      "average_latency_ms": 81.74716845101337,
+      "p95_latency_ms": 183.69056574687534,
+      "route_distribution": {
+        "fireworks": 257,
+        "local": 103
+      },
+      "model_usage": {
+        "accounts/fireworks/models/kimi-k2p7-code": 88,
+        "accounts/fireworks/models/gemma-4-31b-it": 82,
+        "accounts/fireworks/models/gemma-4-26b-a4b-it": 87
+      },
+      "tokens_per_correct": 215.50871080139373,
+      "cost_per_correct": 4.310174216027875e-05,
+      "by_category": {
+        "code_debug": {
+          "total": 45,
+          "accuracy": 0.7555555555555555
+        },
+        "code_generation": {
+          "total": 45,
+          "accuracy": 0.8444444444444444
+        },
+        "factual": {
+          "total": 45,
+          "accuracy": 0.8
+        },
+        "logic": {
+          "total": 45,
+          "accuracy": 0.8222222222222222
+        },
+        "math": {
+          "total": 45,
+          "accuracy": 0.7333333333333333
+        },
+        "ner": {
+          "total": 45,
+          "accuracy": 0.8
+        },
+        "sentiment": {
+          "total": 45,
+          "accuracy": 0.8222222222222222
+        },
+        "summarization": {
+          "total": 45,
+          "accuracy": 0.8
+        }
+      }
+    }
+  ],
+  "pareto_efficient": {
+    "accuracy_vs_tokens": [
+      "always_local",
+      "current_router",
+      "cost_first",
+      "calibrated"
+    ],
+    "accuracy_vs_cost": [
+      "always_local",
+      "current_router",
+      "cost_first",
+      "calibrated"
+    ],
+    "accuracy_vs_latency": [
+      "always_local",
+      "current_router",
+      "cost_first",
+      "calibrated"
+    ]
+  },
+  "warnings": {
+    "small_sample_strategies": [],
+    "note": "Statistical significance not claimed for small sample sizes."
+  }
+}
