@@ -30,55 +30,6 @@ class TaskAnalyzer:
         # TOOL DETECTION
         # =================================================
 
-<<<<<<< HEAD
-=======
-        # ---------------- Calculator ----------------
-
-        has_math_keyword = bool(
-            re.search(
-                r"\b(?:calculate|compute|evaluate|simplify|sqrt|sin|cos|tan|"
-                r"factorial|log|exp)\b",
-                q,
-            )
-        )
-        has_numeric_expression = bool(
-            re.search(r"\d\s*(?:\+|-|\*{1,2}|/|%|\^|//)\s*\d", q)
-        )
-
-        if has_math_keyword or has_numeric_expression:
-            state.tool_candidate = "calculator"
-
-        # ---------------- JSON ----------------
-
-        elif (
-            "json" in q
-            and (
-                "validate" in q
-                or "schema" in q
-                or "parse" in q
-                or "pretty" in q
-            )
-        ):
-            state.tool_candidate = "json_validator"
-
-        # ---------------- Regex ----------------
-
-        elif any(
-            word in q
-            for word in [
-                "email",
-                "phone",
-                "url",
-                "uuid",
-                "ipv4",
-                "regex",
-                "date format",
-                "time format",
-            ]
-        ):
-            state.tool_candidate = "regex_verifier"
-
->>>>>>> origin/with-step-1-again
         # ---------------- DateTime ----------------
 
         if any(
