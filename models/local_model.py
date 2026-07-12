@@ -101,6 +101,14 @@ class LocalModel:
                 "Export or download a model, then set LOCAL_MODEL_PATH."
             )
 
+        model_xml = model_path / "openvino_model.xml"
+        model_bin = model_path / "openvino_model.bin"
+        if not model_xml.is_file() or not model_bin.is_file():
+            raise FileNotFoundError(
+                f"OpenVINO model export is incomplete in {model_path}. "
+                "Expected both openvino_model.xml and openvino_model.bin."
+            )
+
         try:
             import openvino_genai as ov_genai
         except ImportError as error:
