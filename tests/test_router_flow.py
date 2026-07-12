@@ -2,6 +2,7 @@ from datetime import datetime
 
 from router import HybridRouter
 from state import RoutingState
+import pytest
 
 
 class FakeRemoteModel:
@@ -20,6 +21,19 @@ class FakeLocalModel:
 class UnavailableLocalModel:
     def generate(self, state):
         raise RuntimeError("local model unavailable")
+
+
+class FailingRemoteModel:
+    def generate(self, state):
+        raise RuntimeError("provider unavailable")
+
+
+class RecordingLogger:
+    def __init__(self):
+        self.events = []
+
+    def log_event(self, state, **kwargs):
+        self.events.append(kwargs)
 
 
 def test_router_sends_non_tool_request_to_final_model():
@@ -43,6 +57,20 @@ def test_router_keeps_accepted_easy_answer_local():
 
     assert not state.use_remote
     assert state.final_answer == "A concise local answer."
+
+
+def test_router_logs_remote_generation_failures():
+    logger = RecordingLogger()
+    router = HybridRouter(logger=logger)
+    router.local_model = UnavailableLocalModel()
+    router.remote_model = FailingRemoteModel()
+
+    with pytest.raises(RuntimeError, match="provider unavailable"):
+        router.route(RoutingState(query="Explain recursion."))
+
+    assert logger.events[-1]["route_source"] == "error"
+    assert logger.events[-1]["success"] is False
+    assert logger.events[-1]["error"] == "RuntimeError"
 
 
 def test_router_handles_day_of_week_datetime_tool():

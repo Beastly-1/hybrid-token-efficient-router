@@ -3,6 +3,7 @@ import time
 import requests
 
 from config import (
+    ALLOWED_MODELS,
     FIREWORKS_API_KEY,
     FIREWORKS_BASE_URL,
     FIREWORKS_MODEL,
@@ -20,8 +21,16 @@ class RemoteModel:
         if not FIREWORKS_API_KEY:
             raise RuntimeError("FIREWORKS_API_KEY is required for final generation.")
 
+        model_id = state.selected_model or FIREWORKS_MODEL
+        if not model_id:
+            if not ALLOWED_MODELS:
+                raise RuntimeError(
+                    "No Fireworks model configured. Set ALLOWED_MODELS or FIREWORKS_MODEL."
+                )
+            model_id = ALLOWED_MODELS[0]
+
         payload = {
-            "model": state.selected_model or FIREWORKS_MODEL,
+            "model": model_id,
             "messages": [
                 {"role": "system", "content": self._system_message(state)},
                 {"role": "user", "content": state.query},
@@ -45,7 +54,10 @@ class RemoteModel:
             )
             response.raise_for_status()
             body = response.json()
-            content = body["choices"][0]["message"]["content"]
+            message = body["choices"][0]["message"]
+            content = message.get("content")
+            if not isinstance(content, str) or not content.strip():
+                content = message.get("reasoning_content")
         except (requests.RequestException, KeyError, IndexError, TypeError) as error:
             state.remote_latency_ms = round((time.perf_counter() - start) * 1000, 2)
             raise RuntimeError(f"Fireworks generation failed: {error}") from error
@@ -60,7 +72,7 @@ class RemoteModel:
         state.remote_answer = content.strip()
         state.use_remote = True
         state.routing_reason = (
-            f"Fireworks fallback: {state.selected_model or FIREWORKS_MODEL}."
+            f"Fireworks fallback: {model_id}."
         )
         return state
 

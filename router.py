@@ -54,10 +54,20 @@ class HybridRouter:
         if not state.use_remote:
             return self._finalize_route(state, start_time, "local")
 
-        state = self.model_selector.select(state)
-        state = self.remote_model.generate(state)
-        state.final_answer = state.remote_answer
-        self._calculate_actual_cost(state)
+        try:
+            state = self.model_selector.select(state)
+            state = self.remote_model.generate(state)
+            state.final_answer = state.remote_answer
+            self._calculate_actual_cost(state)
+        except Exception as error:
+            self._finalize_route(
+                state,
+                start_time,
+                "error",
+                success=False,
+                error=type(error).__name__,
+            )
+            raise
 
         return self._finalize_route(state, start_time, "fireworks")
 

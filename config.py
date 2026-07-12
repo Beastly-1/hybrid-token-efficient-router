@@ -37,7 +37,7 @@ FIREWORKS_BASE_URL = os.getenv(
     "FIREWORKS_BASE_URL", "https://api.fireworks.ai/inference/v1"
 )
 FIREWORKS_MODEL = os.getenv(
-    "FIREWORKS_MODEL", "accounts/fireworks/models/deepseek-v3p1"
+    "FIREWORKS_MODEL", "accounts/fireworks/models/minimax-m3"
 )
 FIREWORKS_TIMEOUT_SECONDS = int(os.getenv("FIREWORKS_TIMEOUT_SECONDS", "120"))
 ALLOWED_MODELS = [
