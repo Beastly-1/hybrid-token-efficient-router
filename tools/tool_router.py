@@ -1,4 +1,4 @@
-import json
+from datetime import datetime
 import re
 
 from tools.tool_registry import ToolRegistry
@@ -86,11 +86,13 @@ class ToolRouter:
                 "regex_verifier"
             )
 
-            candidate = self._extract_last_token(query)
+            candidate = self._extract_regex_candidate(query, lower, regex)
 
             if (
             "verify email" in lower
             or "validate email" in lower
+            or "check email" in lower
+            or "is this email valid" in lower
             or "email address" in lower
                 ):
 
@@ -103,6 +105,8 @@ class ToolRouter:
             elif (
                 "verify phone" in lower
                 or "validate phone" in lower
+                or "check phone" in lower
+                or "is this phone valid" in lower
                 or "phone number" in lower
                 ):
 
@@ -115,6 +119,8 @@ class ToolRouter:
             elif (
                 "verify url" in lower
                 or "validate url" in lower
+                or "check url" in lower
+                or "is this url valid" in lower
                 ):  
 
                 state.final_answer = (
@@ -171,11 +177,40 @@ class ToolRouter:
 
             dt = self.registry.get_tool("datetime")
 
-            if "current date" in lower:
+            if "current date" in lower or "today" in lower:
 
                 state.final_answer = dt.current_date()
 
-            elif "current time" in lower:
+            elif "is this date valid" in lower:
+
+                candidate = self._extract_date_candidate(query)
+                state.final_answer = (
+                    "Valid Date"
+                    if candidate and dt.day_of_week(candidate) is not None
+                    else "Invalid Date"
+                )
+
+            elif "is this time valid" in lower:
+
+                candidate = self._extract_time_candidate(query)
+                state.final_answer = (
+                    "Valid Time"
+                    if candidate and self._is_time_candidate(candidate)
+                    else "Invalid Time"
+                )
+
+            elif (
+                "current time" in lower
+                or "what time is it" in lower
+                or "what's the time" in lower
+                or "whats the time" in lower
+                or "what is the time" in lower
+                or "time now" in lower
+                or "time right now" in lower
+                or "right now" in lower
+                or "show me the time" in lower
+                or "tell me the time" in lower
+            ):
 
                 state.final_answer = dt.current_time()
 
@@ -191,7 +226,7 @@ class ToolRouter:
 
             elif "leap year" in lower:
 
-                match = re.search(r"\d{4}", query)
+                match = re.search(r"\b(\d{4})\b", query)
 
                 if match:
 
@@ -205,7 +240,13 @@ class ToolRouter:
 
                     return state
 
-            elif "day of week" in lower:
+            elif "christmas" in lower:
+
+                year_match = re.search(r"\b(\d{4})\b", query)
+                year = int(year_match.group()) if year_match else datetime.now().year
+                state.final_answer = dt.day_of_week(f"{year}-12-25")
+
+            elif "day of week" in lower or "day of the week" in lower:
 
                 match = re.search(
                     r"\d{4}-\d{2}-\d{2}",
@@ -222,6 +263,63 @@ class ToolRouter:
 
                 else:
 
+                    return state
+
+            elif "add days" in lower:
+
+                date_match = re.search(r"\d{4}-\d{2}-\d{2}", query)
+                days_match = re.search(r"\b(-?\d+)\b", query)
+
+                if date_match and days_match:
+                    state.final_answer = dt.add_days(
+                        date_match.group(),
+                        int(days_match.group())
+                    )
+                else:
+                    return state
+
+            elif "subtract days" in lower:
+
+                date_match = re.search(r"\d{4}-\d{2}-\d{2}", query)
+                days_match = re.search(r"\b(-?\d+)\b", query)
+
+                if date_match and days_match:
+                    state.final_answer = dt.subtract_days(
+                        date_match.group(),
+                        int(days_match.group())
+                    )
+                else:
+                    return state
+
+            elif "days between" in lower:
+
+                dates = re.findall(r"\d{4}-\d{2}-\d{2}", query)
+
+                if len(dates) >= 2:
+                    state.final_answer = str(
+                        dt.days_between(dates[0], dates[1])
+                    )
+                else:
+                    return state
+
+            elif (
+                "format date" in lower
+                or "format this date" in lower
+                or "date format" in lower
+                or "convert this date" in lower
+            ):
+
+                date_match = re.search(r"\d{4}-\d{2}-\d{2}", query)
+                format_match = re.search(r"(%[^ ]+)", query)
+
+                if date_match and format_match:
+                    state.final_answer = dt.format_date(
+                        date_match.group(),
+                        format_match.group(1)
+                    )
+                elif date_match and "convert this date" in lower:
+                    state.final_answer = date_match.group()
+                else:
                     return state
 
             else:
@@ -308,8 +406,12 @@ class ToolRouter:
             "json" in query
             and (
                 "validate" in query
+                or "check" in query
+                or "is this json valid" in query
                 or "schema" in query
                 or "parse" in query
+                or "pretty" in query
+                or "format" in query
             )
         )
 
@@ -325,6 +427,20 @@ class ToolRouter:
                 "uuid",
                 "date format",
                 "time format",
+                "is this date valid",
+                "is this time valid",
+                "check email",
+                "check phone",
+                "check url",
+                "is this email valid",
+                "is this phone valid",
+                "is this url valid",
+                "verify date",
+                "validate date",
+                "check date",
+                "verify time",
+                "validate time",
+                "check time",
             ]
         )
 
@@ -334,11 +450,38 @@ class ToolRouter:
             word in query
             for word in [
                 "current date",
+                "what's the date",
+                "whats the date",
+                "what is the date",
+                "date today",
+                "show me the date",
+                "tell me the date",
+                "today",
                 "current time",
+                "what time is it",
+                "what's the time",
+                "whats the time",
+                "what is the time",
+                "time now",
+                "time right now",
+                "right now",
+                "show me the time",
+                "tell me the time",
                 "current datetime",
                 "timestamp",
                 "day of week",
+                "what day is it",
+                "what day of the week is it",
+                "day of the week",
+                "days between",
+                "days until",
+                "days since",
+                "add days",
+                "subtract days",
                 "leap year",
+                "format date",
+                "format this date",
+                "convert this date",
             ]
         )
 
@@ -357,6 +500,7 @@ class ToolRouter:
         return (
             "verify" in query
             or "validation" in query
+            or "check" in query
         )
 
     # ======================================================
@@ -366,10 +510,50 @@ class ToolRouter:
     def _extract_expression(self, query):
 
         query = re.sub(
-            r"(?i)(calculate|compute|evaluate|solve)",
+            r"(?i)^\s*(what is|what's|whats|calculate|compute|evaluate|solve|how much is|how much are|can you calculate)\b[:\s]*",
             "",
             query,
         )
+
+        query = re.sub(
+            r"(?i)\b(plus)\b",
+            "+",
+            query,
+        )
+        query = re.sub(
+            r"(?i)\b(minus)\b",
+            "-",
+            query,
+        )
+        query = re.sub(
+            r"(?i)\b(times|multiplied by)\b",
+            "*",
+            query,
+        )
+        query = re.sub(
+            r"(?i)\b(divided by)\b",
+            "/",
+            query,
+        )
+
+        percent_of_match = re.search(
+            r"(?i)\b(\d+(?:\.\d+)?)\s*%\s*of\s*(\d+(?:\.\d+)?)\b",
+            query,
+        )
+        if percent_of_match:
+            left = percent_of_match.group(1)
+            right = percent_of_match.group(2)
+            return f"({left} / 100) * {right}"
+
+        match = re.search(
+            r"[\d\w\.\(\)\s\+\-\*/%//\^,]+",
+            query,
+        )
+
+        if match:
+            candidate = match.group().strip()
+            if candidate:
+                return candidate
 
         return query.strip()
 
@@ -392,6 +576,56 @@ class ToolRouter:
 
         return tokens[-1]
 
+    def _extract_regex_candidate(self, query, lower, regex):
+
+        if "email" in lower:
+            candidate = regex.extract(regex.EMAIL, query)
+            return self._normalize_candidate(
+                candidate or self._extract_last_token(query)
+            )
+
+        if "phone" in lower:
+            candidate = regex.extract(regex.PHONE, query)
+            return self._normalize_candidate(
+                candidate or self._extract_last_token(query)
+            )
+
+        if "url" in lower:
+            candidate = regex.extract(regex.URL, query)
+            return self._normalize_candidate(
+                candidate or self._extract_last_token(query)
+            )
+
+        if "ipv4" in lower:
+            candidate = regex.extract(regex.IPV4, query)
+            return self._normalize_candidate(
+                candidate or self._extract_last_token(query)
+            )
+
+        if "uuid" in lower:
+            candidate = regex.extract(regex.UUID, query)
+            return self._normalize_candidate(
+                candidate or self._extract_last_token(query)
+            )
+
+        if "date" in lower:
+            candidate = regex.extract(regex.DATE, query)
+            return self._normalize_candidate(
+                candidate or self._extract_last_token(query)
+            )
+
+        if "time" in lower:
+            candidate = regex.extract(regex.TIME, query)
+            return self._normalize_candidate(
+                candidate or self._extract_last_token(query)
+            )
+
+        return self._normalize_candidate(self._extract_last_token(query))
+
+    def _normalize_candidate(self, candidate):
+
+        return candidate.strip(" \t\n\r.,!?;:'\"`()[]{}<>")
+
     def _extract_code(self, query):
 
         if "```" in query:
@@ -408,3 +642,17 @@ class ToolRouter:
                 return code.strip()
 
         return None
+
+    def _extract_date_candidate(self, query):
+
+        match = re.search(r"\d{4}-\d{2}-\d{2}", query)
+        return match.group() if match else None
+
+    def _extract_time_candidate(self, query):
+
+        match = re.search(r"\b\d{2}:\d{2}(:\d{2})?\b", query)
+        return match.group() if match else None
+
+    def _is_time_candidate(self, candidate):
+
+        return candidate.count(":") in (1, 2)

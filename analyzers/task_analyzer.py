@@ -36,14 +36,38 @@ class TaskAnalyzer:
             phrase in q
             for phrase in [
                 "current date",
+                "what's the date",
+                "whats the date",
+                "what is the date",
+                "is this date valid",
+                "date today",
+                "show me the date",
+                "tell me the date",
                 "today",
                 "current time",
+                "is this time valid",
+                "what time is it",
+                "what's the time",
+                "whats the time",
+                "what is the time",
+                "time now",
+                "time right now",
+                "show me the time",
+                "tell me the time",
+                "right now",
                 "current datetime",
                 "timestamp",
                 "day of week",
+                "what day is it",
+                "what day of the week is it",
                 "days between",
+                "days until",
+                "days since",
                 "add days",
                 "subtract days",
+                "date format",
+                "format this date",
+                "convert this date",
                 "leap year",
             ]
         ):
@@ -59,6 +83,16 @@ class TaskAnalyzer:
                 "evaluate",
                 "simplify",
                 "solve",
+                "sum",
+                "add",
+                "subtract",
+                "multiply",
+                "divide",
+                "percent",
+                "percentage",
+                "round",
+                "rounding",
+                "convert",
                 "sqrt",
                 "sin",
                 "cos",
@@ -77,6 +111,11 @@ class TaskAnalyzer:
                 or re.search(r"\d+\s*-\s*\d+", q) is not None
                 or "**" in q
                 or re.search(r"\d+\s*//\s*\d+", q) is not None
+                or re.search(r"\d+\s*\+\s*\d+", q) is not None
+                or re.search(r"\d+\s+(plus|minus|times|multiplied by|divided by)\s+\d+", q)
+                is not None
+                or re.search(r"\b(sum|add|subtract|multiply|divide)\b", q) is not None
+                or re.search(r"\d+\s*%", q) is not None
             )
 
             if has_math_expression or any(word in q for word in math_keywords):
@@ -89,10 +128,13 @@ class TaskAnalyzer:
                 and any(
                     word in q
                     for word in [
-                        "validate",
-                        "schema",
-                        "parse",
-                        "pretty",
+                "validate",
+                "check",
+                "is this json valid",
+                "schema",
+                "parse",
+                "pretty",
+                "format",
                     ]
                 )
             ):
@@ -103,20 +145,28 @@ class TaskAnalyzer:
             elif any(
                 phrase in q
                 for phrase in [
-                    "verify email",
-                    "validate email",
-                    "verify phone",
-                    "validate phone",
-                    "verify url",
-                    "validate url",
-                    "verify ipv4",
-                    "validate ipv4",
-                    "verify uuid",
-                    "validate uuid",
-                    "regex pattern",
-                    "regex match",
-                ]
-            ):
+                "verify email",
+                "validate email",
+                "check email",
+                "is this email valid",
+                "verify phone",
+                "validate phone",
+                "check phone",
+                "is this phone valid",
+                "verify url",
+                "validate url",
+                "check url",
+                "is this url valid",
+                "verify ipv4",
+                "validate ipv4",
+                "check ipv4",
+                "verify uuid",
+                "validate uuid",
+                "check uuid",
+                "regex pattern",
+                "regex match",
+            ]
+        ):
                 state.tool_candidate = "regex_verifier"
 
             # ---------------- Python ----------------
@@ -124,11 +174,14 @@ class TaskAnalyzer:
             elif any(
                 phrase in q
                 for phrase in [
-                    "run python",
-                    "execute python",
-                    "execute code",
-                    "run this code",
-                ]
+                "run python",
+                "execute python",
+                "run this python",
+                "execute code",
+                "run this code",
+                "python script",
+                "python code",
+            ]
             ):
                 state.tool_candidate = "python_executor"
 
@@ -137,6 +190,7 @@ class TaskAnalyzer:
             elif (
                 "verify json" in q
                 or "verification" in q
+                or "check json" in q
             ):
                 state.tool_candidate = "verification"
 
