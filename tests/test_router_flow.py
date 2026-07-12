@@ -121,6 +121,54 @@ def test_router_handles_whats_the_date_phrasing():
     assert state.final_answer == datetime.now().date().isoformat()
 
 
+def test_router_handles_what_is_the_date_phrasing():
+    router = HybridRouter()
+    router.local_model = FakeLocalModel()
+    router.remote_model = FakeRemoteModel()
+
+    state = router.route(RoutingState(query="What is the date?"))
+
+    assert not state.use_remote
+    assert state.tool_used == "datetime"
+    assert state.final_answer == datetime.now().date().isoformat()
+
+
+def test_router_handles_what_date_is_it_phrasing():
+    router = HybridRouter()
+    router.local_model = FakeLocalModel()
+    router.remote_model = FakeRemoteModel()
+
+    state = router.route(RoutingState(query="What date is it?"))
+
+    assert not state.use_remote
+    assert state.tool_used == "datetime"
+    assert state.final_answer == datetime.now().date().isoformat()
+
+
+def test_router_handles_what_is_todays_date_phrasing():
+    router = HybridRouter()
+    router.local_model = FakeLocalModel()
+    router.remote_model = FakeRemoteModel()
+
+    state = router.route(RoutingState(query="What is today's date?"))
+
+    assert not state.use_remote
+    assert state.tool_used == "datetime"
+    assert state.final_answer == datetime.now().date().isoformat()
+
+
+def test_router_handles_what_time_is_it_phrasing():
+    router = HybridRouter()
+    router.local_model = FakeLocalModel()
+    router.remote_model = FakeRemoteModel()
+
+    state = router.route(RoutingState(query="What time is it?"))
+
+    assert not state.use_remote
+    assert state.tool_used == "datetime"
+    assert len(state.final_answer) == 8
+
+
 def test_router_handles_word_based_addition():
     router = HybridRouter()
     router.local_model = FakeLocalModel()

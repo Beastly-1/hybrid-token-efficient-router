@@ -177,8 +177,22 @@ class ToolRouter:
 
             dt = self.registry.get_tool("datetime")
 
-            if "current date" in lower or "today" in lower:
-
+            if any(
+                phrase in lower
+                for phrase in [
+                    "current date",
+                    "today",
+                    "what is the date",
+                    "what's the date",
+                    "whats the date",
+                    "what date is it",
+                    "what is today's date",
+                    "today's date",
+                    "date today",
+                    "show me the date",
+                    "tell me the date",
+                ]
+            ):
                 state.final_answer = dt.current_date()
 
             elif "is this date valid" in lower:
@@ -453,6 +467,9 @@ class ToolRouter:
                 "what's the date",
                 "whats the date",
                 "what is the date",
+                "what date is it",
+                "what is today's date",
+                "today's date",
                 "date today",
                 "show me the date",
                 "tell me the date",
