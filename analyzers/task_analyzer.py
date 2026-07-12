@@ -123,7 +123,10 @@ class TaskAnalyzer:
                 or re.search(r"\d+\s*%", q) is not None
             )
 
-            if has_math_expression or any(word in q for word in math_keywords):
+            if has_math_expression or any(
+                re.search(rf"\b{re.escape(word)}\b", q)
+                for word in math_keywords
+            ):
                 state.tool_candidate = "calculator"
 
             # ---------------- JSON ----------------
@@ -286,7 +289,7 @@ class TaskAnalyzer:
             or (
                 re.search(r"\d", q)
                 and any(
-                    word in q
+                    re.search(rf"\b{re.escape(word)}\b", q)
                     for word in [
                         "equation",
                         "percentage",

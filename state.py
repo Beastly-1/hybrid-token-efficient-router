@@ -26,6 +26,9 @@ class RoutingState:
     timeout_seconds: int = 0
     input_valid: bool = True
     input_issues: list[str] = field(default_factory=list)
+    current_date: str = ""
+    current_time: str = ""
+    current_datetime: str = ""
 
     # ==========================
     # Local Model
