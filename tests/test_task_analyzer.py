@@ -9,8 +9,10 @@ def test_task_analyzer_classifies_gdpr_business_query_as_factual():
     )
     state = TaskAnalyzer().analyze(RoutingState(query=query))
 
+    # GDPR questions are complex but not strict "legal" keywords (no law, court, attorney, etc)
+    # So they're classified as factual and handled by high confidence threshold (0.95)
     assert state.task_type == "factual"
-    assert state.tool_candidate is None
+    assert not state.force_remote
     assert state.difficulty == "medium"
 
 

@@ -68,6 +68,7 @@ class RoutingState:
     # Final Decision
     # ==========================
     use_remote: bool = False
+    force_remote: bool = False
     final_answer: str = ""
 
     # ==========================

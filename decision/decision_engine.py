@@ -8,6 +8,11 @@ class DecisionEngine:
 
     def decide(self, state):
 
+        if state.force_remote:
+            state.use_remote = True
+            state.routing_reason = "Query flagged for mandatory remote routing (legal/complex code)."
+            return state
+
         threshold = ROUTE_THRESHOLDS.get(state.task_type, ROUTE_THRESHOLDS["default"])
         local_allowed = state.difficulty in LOCAL_ACCEPT_DIFFICULTIES
         if state.local_answer and local_allowed and state.route_score >= threshold:

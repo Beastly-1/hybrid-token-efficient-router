@@ -54,25 +54,27 @@ MODEL_SELECTION_MODE = os.getenv("MODEL_SELECTION_MODE", "cost_first").strip().l
 
 ROUTE_THRESHOLDS = {
 
-    "math": 0.92,
+    "math": 0.96,
 
-    "logic": 0.94,
+    "logic": 0.97,
 
-    "code_generation": 0.90,
+    "code_generation": 0.98,
 
-    "code_debug": 0.90,
+    "code_debug": 0.98,
 
-    "summarization": 0.85,
+    "summarization": 0.92,
 
-    "ner": 0.80,
+    "ner": 0.90,
 
-    "sentiment": 0.75,
+    "sentiment": 0.88,
 
-    "factual": 0.82,
+    "factual": 0.95,
 
-    "general": 0.85,
+    "legal": 0.99,
 
-    "default": 0.85,
+    "general": 0.95,
+
+    "default": 0.95,
 }
 
 # ==========================================================

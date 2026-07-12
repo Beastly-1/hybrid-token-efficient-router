@@ -25,6 +25,31 @@ class TaskAnalyzer:
         state.task_type = "factual"
         state.difficulty = "medium"
         state.tool_candidate = None
+        state.force_remote = False
+
+        # =================================================
+        # LEGAL QUERIES - ALWAYS REMOTE
+        # =================================================
+
+        legal_keywords = [
+            "legal",
+            "law",
+            "lawsuit",
+            "contract",
+            "attorney",
+            "lawyer",
+            "court",
+            "jurisdiction",
+            "liability",
+            "copyright",
+            "patent",
+            "trademark",
+        ]
+        
+        if any(keyword in q for keyword in legal_keywords):
+            state.force_remote = True
+            state.task_type = "legal"
+            return state
 
         # =================================================
         # TOOL DETECTION
